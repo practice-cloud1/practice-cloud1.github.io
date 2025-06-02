@@ -1,4 +1,4 @@
-name: HTML and CSS Lint
+name: Code Linting and Testing
 
 on:
   push:
@@ -12,27 +12,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
-      - name: Cache Node.js dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - name: Install linters
         run: |
           npm install -g htmlhint stylelint stylelint-config-standard
-
       - name: Lint HTML
         run: htmlhint .
-
       - name: Lint CSS
         run: |
           npx stylelint "**/*.css"
